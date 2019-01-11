@@ -1,0 +1,30 @@
+{
+  "name": "create-toc-app",
+  "version": "0.2.1",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "create-toc-app": "./index.js"
+  },
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "co": "^4.6.0",
+    "co-prompt": "^1.0.0",
+    "commander": "^2.9.0",
+    "download-git-repo": "^1.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/junjie-lean/create-toc-app.git"
+  },
+  "author": "lean",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/junjie-lean/create-toc-app/issues"
+  },
+  "homepage": "https://github.com/junjie-lean/create-toc-app#readme"
+}
