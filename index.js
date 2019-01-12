@@ -4,7 +4,7 @@
  * @Author: junjie.lean 
  * @Date: 2019-01-12 00:05:28 
  * @Last Modified by: lean
- * @Last Modified time: 2019-01-12 18:50:03
+ * @Last Modified time: 2019-01-12 22:11:27
  */
 
 const commander = require('commander');
@@ -59,24 +59,21 @@ commander.version(require('./package').version, '-v, --version')
             } else {
                 loadingline.stopAndPersist().start(" Creating project success,Install dependencies(This will take some time)...");
                 let installDependencies = cp.spawnSync('npm',
-                    ['install'],
+                    ['i'],
                     {
                         cwd:
                             path.join(thisCwd, DIRNAME),
                         encoding: "utf8",
                         shell: process.platform == "win32"
                     });
-                loadingline.start(" Install dependencies success,Eject project");
-                let ejectProject = cp.spawnSync("npm",
-                    ["run", "eject"],
-                    {
-                        cwd:
-                            path.join(thisCwd, DIRNAME),
-                        encoding: "utf8",
-                        shell: process.platform == "win32"
-                    }
-                )
-                signale.success("Now you can start your project,Good luck, Have fun!");
+                if (installDependencies.stdout) {
+                    console.log(installDependencies.stdout)
+                }
+                if (installDependencies.stderr) {
+                    console.log(installDependencies.stderr)
+                }
+                loadingline.stop()
+                signale.success("Now you can eject your project,Good luck, Have fun!");
             }
         })
     } else {
@@ -88,11 +85,11 @@ commander.version(require('./package').version, '-v, --version')
 //删除指定文件或文件夹
 function deleteFolder(path) {
     let files = [];
-    if( fs.existsSync(path) ) {
+    if (fs.existsSync(path)) {
         files = fs.readdirSync(path);
-        files.forEach(function(file,index){
+        files.forEach((file) => {
             let curPath = path + "/" + file;
-            if(fs.statSync(curPath).isDirectory()) { 
+            if (fs.statSync(curPath).isDirectory()) {
                 deleteFolder(curPath);
             } else {
                 fs.unlinkSync(curPath);
