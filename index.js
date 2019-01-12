@@ -4,7 +4,7 @@
  * @Author: junjie.lean 
  * @Date: 2019-01-12 00:05:28 
  * @Last Modified by: lean
- * @Last Modified time: 2019-01-12 18:06:08
+ * @Last Modified time: 2019-01-12 18:50:03
  */
 
 const commander = require('commander');
@@ -34,14 +34,14 @@ commander.version(require('./package').version, '-v, --version')
                 //找到同名文件，询问是否覆盖
                 let needCoverage = readline.question(chalk.bgRed(`  The "${dir}" is exists in current folder,coverage? y/n  `))
                 if (needCoverage && needCoverage == "y") {
-                    deleteFileOrFolder(path.join(thisCwd, dir))
-                    DIRNAME = dir;
+                    deleteFolder(path.join(thisCwd, dir));
                     break;
                 } else {
                     return false
                 }
             }
         }
+        DIRNAME = dir;
     })
     .parse(process.argv);
 
@@ -86,28 +86,19 @@ commander.version(require('./package').version, '-v, --version')
 
 
 //删除指定文件或文件夹
-function deleteFileOrFolder(_path) {
-    let stat = fs.statSync(_path);
-    if (stat.isDirectory()) {
-        let childFiles = fs.readdirSync(_path);
-        if (childFiles.length == 0) {
-            //空文件夹
-            fs.rmdirSync(_path)
-        } else {
-            for (let childFile of childFiles) {
-                deleteFileOrFolder(path.join(_path, childFile))
+function deleteFolder(path) {
+    let files = [];
+    if( fs.existsSync(path) ) {
+        files = fs.readdirSync(path);
+        files.forEach(function(file,index){
+            let curPath = path + "/" + file;
+            if(fs.statSync(curPath).isDirectory()) { 
+                deleteFolder(curPath);
+            } else {
+                fs.unlinkSync(curPath);
             }
-        }
-
-    } else {
-        fs.unlinkSync(_path);
+        });
+        fs.rmdirSync(path);
     }
-
-    if (fs.readdirSync(_path).length > 0) {
-        deleteFileOrFolder(_path)
-    } 
 }
-
-
-
 // https://github.com/junjie-lean/falseworkWithNext7.git
