@@ -2,24 +2,24 @@
 <br />
 
 Create-toc-app is the global command for create a toc app;  
-More about toc : [see toc.js](https://github.com/junjie-lean/toc.js/tree/alpha)
+More about toc.js, see [here](https://github.com/junjie-lean/toc.js/tree/alpha).
 
 ## Installanion
 
 Using npm:
 ```javascript
 
-    npm i -g npm
-    npm i -g create-tpc-app
+    npm install -g npm
+    npm install -g create-tpc-app
 
 ```
 
 ## Create Project
 
-In terminal:
+In Terminal or CMD:
 ```javascript
 
-    create-toc-app <project>
+    create-toc-app <project Name>
 
 ```
 
@@ -30,4 +30,4 @@ Help me to fixes bug:[issues](https://github.com/junjie-lean/create-toc-app/issu
 
 ## Warning 
 
-Now the version is <span style="color:red">NOT</span> a Release Version,use this staging careful;
+Now the version is <span style="color:red">NOT</span> the Release Version,use this staging careful;
