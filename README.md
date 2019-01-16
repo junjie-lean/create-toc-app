@@ -25,11 +25,11 @@ In Terminal or CMD:
 
 ## Staring Project
 
-First of all, you may need install the dependencies:
+- First of all, you may need install the dependencies:
 In the project path:
 `npm install`;  
-And then,toc.js will eject the startup script on the bases if "/config/config.js" : `npm run eject`;  
-And last,execute `npm run dev` to start services;
+- And then,toc.js will eject the startup script on the bases of "/config/config.js" : `npm run eject`;  
+- And last,execute `npm run dev` to start services;
 
 ## Found Some Bugs?
 
