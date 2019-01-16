@@ -10,7 +10,7 @@ Using npm:
 ```javascript
 
     npm install -g npm
-    npm install -g create-tpc-app
+    npm install -g create-toc-app
 
 ```
 
