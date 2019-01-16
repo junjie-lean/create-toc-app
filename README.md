@@ -4,7 +4,7 @@
 Create-toc-app is the global command for create a toc app;  
 More about toc.js, see [here](https://github.com/junjie-lean/toc.js/tree/alpha).
 
-## Installanion
+## Installation
 
 Using npm:
 ```javascript
