@@ -4,7 +4,7 @@
  * @Author: junjie.lean 
  * @Date: 2019-01-12 00:05:28 
  * @Last Modified by: lean
- * @Last Modified time: 2019-01-12 22:11:27
+ * @Last Modified time: 2019-02-04 00:00:13
  */
 
 const commander = require('commander');
@@ -96,6 +96,8 @@ function deleteFolder(path) {
             }
         });
         fs.rmdirSync(path);
+
+        
     }
 }
 // https://github.com/junjie-lean/falseworkWithNext7.git
