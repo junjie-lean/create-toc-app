@@ -1,6 +1,6 @@
 {
   "name": "create-toc-app",
-  "version": "0.3.4",
+  "version": "0.4.1",
   "main": "index.js",
   "bin": {
     "create-toc-app": "./index.js"
