@@ -4,7 +4,7 @@
  * @Author: junjie.lean 
  * @Date: 2019-01-12 00:05:28 
  * @Last Modified by: lean
- * @Last Modified time: 2019-01-12 22:11:27
+ * @Last Modified time: 2019-02-14 15:51:46
  */
 
 const commander = require('commander');
@@ -19,7 +19,7 @@ const readline = require('readline-sync');
 let DIRNAME = "";
 let gitoption = {
     branch: "alpha",
-    addr: "junjie-lean/falseworkWithNext7"
+    addr: "junjie-lean/toc.js"
 };
 let thisCwd = process.cwd();
 let loadingline = new ora();
@@ -96,6 +96,8 @@ function deleteFolder(path) {
             }
         });
         fs.rmdirSync(path);
+
+        
     }
 }
 // https://github.com/junjie-lean/falseworkWithNext7.git
