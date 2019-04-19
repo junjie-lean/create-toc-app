@@ -1,13 +1,13 @@
 {
   "name": "create-toc-app",
-  "version": "0.4.2",
-  "main": "index.js",
+  "version": "0.5.0",
+  "main": "index.v2.js",
   "bin": {
-    "create-toc-app": "./index.js"
+    "create-toc-app": "./index.v2.js"
   },
   "dependencies": {
     "chalk": "^2.4.2",
-    "commander": "^2.19.0",
+    "commander": "^2.20.0",
     "download-git-repo": "^1.1.0",
     "loading-cli": "^1.0.8",
     "ora": "^3.0.0",
