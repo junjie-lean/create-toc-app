@@ -4,7 +4,7 @@
  * @Author: junjie.lean
  * @Date: 2019-04-19 10:16:17
  * @Last Modified by: junjie.lean
- * @Last Modified time: 2019-04-19 22:09:35
+ * @Last Modified time: 2019-04-21 15:11:54
  */
 
 /**
@@ -48,7 +48,7 @@ program
 
     if (program.force) {
       if (!checkRepeat(dir)) {
-        console.log("⚠️  即将删除项目<" + dir + ">");
+        console.log("⚠️  文件名冲突，即将删除已存在项目<" + dir + ">");
         deleteFolder(path.join(process.cwd(), dir));
       }
 
@@ -88,7 +88,7 @@ function isAllowCreate(dirname) {
  * @param {String} dirname
  */
 function createFloder(dirname) {
-  console.log("✔️  开始创建项目“<" + dirname + ">”,请稍等...");
+  console.log("✔️  开始创建项目'<" + dirname + ">',请稍等...");
   fs.mkdirSync(dirname);
 }
 
@@ -145,6 +145,9 @@ function getTemplate(dirname, serverless) {
       })
       .then(cp => {
         //insdep Child_process
+        // cp.on("close",()=>{
+        //     return 
+        // })
       })
       .catch(err => {
         console.log(err);
@@ -180,6 +183,7 @@ function getTemplate(dirname, serverless) {
 
 /**
  * @description 安装依赖的
+ * @return 子进程实例对象
  */
 function insDepend(dirname) {
   console.log("✔️  项目目录初始化完毕，开始安装依赖...");
@@ -223,6 +227,8 @@ function deleteFolder(path) {
 /**
  * @description print项目初始化介绍
  */
-function showIntro() {
-  console.log();
+function showIntro(dirname, isServerless) {
+  console.log(
+    `✔️  新建项目'${dirname}${isServerless ? " - 无服务版" : " - 接口转发版"}' 创建完毕`
+  );
 }
