@@ -20,13 +20,17 @@ In Terminal or CMD:
 
 ### Attention 
 
-In this version, toc.js adds a static version without a Node.js services.It called 'toc.serverless';  
+In this version, toc.js adds a static version without a Node.js services. It called 'toc.serverless';  
 So you can use add option '-s' to initial a serverless version;Like this  
 
 
 `
     create-toc-app -s <project name>
 `
+
+toc.serverless can create a simple React directory structure,And contains 'Ant desgin' and 'Lodash'.It even encapsulates 'Axios' as the request methods;All of this are configured.
+
+
 
 ## Staring Project
 
