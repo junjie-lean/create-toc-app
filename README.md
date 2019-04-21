@@ -2,40 +2,40 @@
 <br />
 
 Create-toc-app is the global command for create a toc app;  
-More about toc.js, see [here](https://github.com/junjie-lean/toc.js/tree/alpha).
+More about toc.js, see [here](https://github.com/junjie-lean/toc/tree/alpha).
 
 ## Installation
 
 Using npm:
-```javascript
-
+```npm
     npm install -g npm
     npm install -g create-toc-app
-
 ```
 
 ## Create Project
 
-In Terminal or CMD:
-```javascript
+In Terminal or CMD:  
 
-    create-toc-app <project Name>
+`create-toc-app <project Name>`,
 
-```
+### Attention 
+
+In this version, toc.js adds a static version without a Node.js services.It called 'toc.serverless';  
+So you can use add option '-s' to initial a serverless version;Like this  
+
+
+`
+    create-toc-app -s <project name>
+`
 
 ## Staring Project
 
-- First of all, you may need install the dependencies:
-In the project path:
-`npm install`;  
-- And then,toc.js will eject the startup script on the bases of "/config/config.js" : `npm run eject`;  
-- And last,execute `npm run dev` to start services;
+Create-toc-app can install the dependencies by itself, you just need you network is working，it's necessary.
 
 ## Found Some Bugs?
 
 Help me to fixes bug:[issues](https://github.com/junjie-lean/create-toc-app/issues);
 
 
-## Warning 
+<!-- ## Warning  -->
 
-Now the version is <span style="color:red">NOT</span> the Release Version,use this staging careful;
