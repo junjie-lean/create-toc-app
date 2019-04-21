@@ -4,7 +4,7 @@
  * @Author: junjie.lean
  * @Date: 2019-04-19 10:16:17
  * @Last Modified by: lean
- * @Last Modified time: 2019-04-21 15:50:16
+ * @Last Modified time: 2019-04-21 17:44:24
  */
 
 /**
@@ -16,8 +16,11 @@ const fs = require("fs");
 const spawn = require("cross-spawn");
 const program = require("commander");
 const download = require("download-git-repo");
-const 
+const ora = require("ora");
 
+/**
+ * @description git模板地址配置
+ */
 const GIT_OPTION = {
   serverless: {
     branch: "alpha",
@@ -29,8 +32,28 @@ const GIT_OPTION = {
   }
 };
 
+//调用开始时间计时
 let timerStart = new Date().getTime();
 
+let Ora = new ora({
+  color: "green",
+  spinner: {
+    interval: 80,
+    frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"]
+  }
+});
+console.toLogger = txt => {
+  Ora.start(txt);
+};
+console.succeed = txt => {
+  Ora.succeed(txt);
+};
+console.warning = txt => {
+  Ora.warn(txt);
+};
+console.close = txt => {
+  Ora.stop(txt);
+};
 /**
  * @description 主程
  */
@@ -45,14 +68,15 @@ program
     //判断dirname是否合法
     if (!isAllowCreate(dir)) {
       // throw new Error("not all");
-      console.log("❌  '<" + dir + ">'是一个不合适的项目名称!");
+      console.warning("'<" + dir + ">'是一个不合适的项目名称!");
       return false;
     }
 
     if (program.force) {
       if (!checkRepeat(dir)) {
-        console.log("⚠️  文件名冲突，即将删除已存在项目'<" + dir + ">'...");
+        console.warning("文件名冲突，即将删除已存在项目'<" + dir + ">'...");
         deleteFolder(path.join(process.cwd(), dir));
+        console.succeed("已删除！");
       }
 
       createFloder(dir);
@@ -66,7 +90,7 @@ program
       createFloder(dir);
       getTemplate(dir, program.serverless);
     } else {
-      console.warn("❌   当前目录下已有'<" + dir + ">'文件夹");
+      console.warning("当前目录下已有'<" + dir + ">'文件夹");
       return false;
     }
   });
@@ -91,9 +115,8 @@ function isAllowCreate(dirname) {
  * @param {String} dirname
  */
 function createFloder(dirname) {
-  console.log("✔️  开始创建项目'<" + dirname + ">',请稍等...");
+  console.toLogger("开始创建项目'<" + dirname + ">',请稍等...");
   fs.mkdirSync(dirname);
-
 }
 
 /**
@@ -125,9 +148,7 @@ function checkRepeat(dirname) {
  */
 function getTemplate(dirname, serverless) {
   if (serverless) {
-    console.log(
-      "✔️  开始初始化静态项目目录结构(这可能需要花费一点时间)..."
-    );
+    console.toLogger("开始初始化静态项目目录结构(这可能需要花费一点时间)...");
 
     new Promise((resolve, reject) => {
       download(
@@ -135,7 +156,7 @@ function getTemplate(dirname, serverless) {
         path.join(process.cwd(), dirname),
         err => {
           if (err) {
-            console.log("❌  无法拉取远程模板，请检查网络！");
+            console.warning("无法拉取远程模板，请检查网络！");
             reject();
           } else {
             resolve();
@@ -145,26 +166,26 @@ function getTemplate(dirname, serverless) {
     })
       .then(() => {
         //返回异步子进程对象,方便后续处理
-        return insDepend(dirname,serverless);
+        return insDepend(dirname, serverless);
       })
       .then(cp => {
         //insdep Child_process
         // cp.on("close",()=>{
-        //     return 
+        //     return
         // })
       })
       .catch(err => {
         console.log(err);
       });
   } else {
-    console.log("✔️  开始初始化目录结构(这可能需要花费一点时间)...");
+    console.toLogger("开始初始化目录结构(这可能需要花费一点时间)...");
     new Promise((resolve, reject) => {
       download(
         `${GIT_OPTION.server.addr}#${GIT_OPTION.server.branch}`,
         path.join(process.cwd(), dirname),
         err => {
           if (err) {
-            console.log("❌  无法拉取远程模板，请检查网络！");
+            console.warning("无法拉取远程模板，请检查网络！");
             reject();
           } else {
             // insDepend(dirname);
@@ -189,29 +210,22 @@ function getTemplate(dirname, serverless) {
  * @description 安装依赖的
  * @return 子进程实例对象
  */
-function insDepend(dirname,isServerless) {
-  console.log("✔️  项目目录初始化完毕，开始安装依赖...");
-  // let insDep = spawn("npm", ["i"], {
-  //   cwd: path.join(process.cwd(), dirname),
-  //   encoding: "utf8",
-  //   shell: process.platform == "win32",
-  //   stdio: ["inherit", "ignore", "pipe"]
-  //   //   stdio: "inherit"
-  // });
-
-  let insDep = spawn("echo", ["i"], {
+function insDepend(dirname, isServerless) {
+  console.succeed("项目目录初始化完毕，开始安装依赖...");
+  let insDep = spawn("npm", ["i"], {
     cwd: path.join(process.cwd(), dirname),
     encoding: "utf8",
     shell: process.platform == "win32",
     stdio: ["inherit", "ignore", "pipe"]
     //   stdio: "inherit"
   });
+
   insDep.on("close", (code, signal) => {
     if (code == 0 && !signal) {
-      console.log("✔️  依赖安装完毕，正在做就绪准备...");
-      showIntro(dirname,isServerless)
+      console.toLogger("依赖安装完毕，正在做就绪准备...");
+      showIntro(dirname, isServerless);
     } else {
-      console.log("❌   依赖安装失败，请检查网络！");
+      console.warning(" 依赖安装失败，请检查网络！");
     }
   });
   return insDep;
@@ -241,17 +255,18 @@ function deleteFolder(path) {
  * @description print项目初始化介绍
  */
 function showIntro(dirname, isServerless) {
-  console.log(
-    `✔️  新建项目'${dirname}${isServerless ? " - 无服务版" : " - 接口转发版"}' 创建完毕`
+  console.close(
+    `新建项目'${dirname}${
+      isServerless ? " - 无服务版" : " - 接口转发版"
+    }' 创建完毕`
   );
-  timeCount(dirname,isServerless)
+  timeCount(dirname, isServerless);
 }
-
 
 /**
  * @description 安装时间计数
  */
-function timeCount(){
+function timeCount() {
   let elapsed = new Date().getTime() - timerStart;
-  console.log(elapsed);
+  console.succeed(elapsed);
 }
