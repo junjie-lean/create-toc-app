@@ -2,7 +2,7 @@
 <br />
 
 Create-toc-app is the global command for create a toc app;  
-More about toc.js, see [here](https://github.com/junjie-lean/toc/tree/alpha).
+More about toc.js, see [here](https://github.com/junjie-lean/toc/tree/alpha).  
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 
 ## Installation
