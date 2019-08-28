@@ -4,7 +4,7 @@
  * @Author: junjie.lean
  * @Date: 2019-04-19 10:16:17
  * @Last Modified by: junjie.lean
- * @Last Modified time: 2019-04-22 11:15:34
+ * @Last Modified time: 2019-08-28 16:37:15
  */
 
 /**
@@ -22,13 +22,13 @@ const ora = require("ora");
  * @description git模板地址配置
  */
 const GIT_OPTION = {
-  serverless: {
-    branch: "alpha",
-    addr: "junjie-lean/toc.serverless"
+  pro: {
+    branch: "master",
+    addr: "junjie-lean/jfweb"
   },
-  server: {
+  dev: {
     branch: "alpha",
-    addr: "junjie-lean/toc"
+    addr: "junjie-lean/jfweb"
   }
 };
 
@@ -115,11 +115,10 @@ program.parse(process.argv);
  * @param {String} dirname
  */
 function isAllowCreate(dirname) {
-  let reg = /(^\w{1,64}$)/gi;
+  let reg = /^[^\\/:\*\?""<>|]{1,120}$/gi;
   if (!reg.test(dirname)) {
     return false;
   }
-
   return true;
 }
 
@@ -161,11 +160,11 @@ function checkRepeat(dirname) {
  */
 function getTemplate(dirname, serverless) {
   if (serverless) {
-    console.loading("开始初始化静态项目目录结构(这可能需要花费一点时间)...");
+    console.loading("开始初始化dev项目目录结构(这可能需要花费一点时间)...");
 
     new Promise((resolve, reject) => {
       download(
-        `${GIT_OPTION.serverless.addr}#${GIT_OPTION.serverless.branch}`,
+        `${GIT_OPTION.dev.addr}#${GIT_OPTION.dev.branch}`,
         path.join(process.cwd(), dirname),
         err => {
           if (err) {
@@ -179,6 +178,7 @@ function getTemplate(dirname, serverless) {
     })
       .then(() => {
         //返回异步子进程对象,方便后续处理
+        console.loading('项目已拉取，开始安装依赖')
         return insDepend(dirname, serverless);
       })
       .then(cp => {
@@ -194,7 +194,7 @@ function getTemplate(dirname, serverless) {
     console.toLogger("开始初始化目录结构(这可能需要花费一点时间)...");
     new Promise((resolve, reject) => {
       download(
-        `${GIT_OPTION.server.addr}#${GIT_OPTION.server.branch}`,
+        `${GIT_OPTION.pro.addr}#${GIT_OPTION.pro.branch}`,
         path.join(process.cwd(), dirname),
         err => {
           if (err) {
@@ -208,6 +208,7 @@ function getTemplate(dirname, serverless) {
       );
     })
       .then(() => {
+        console.loading('项目已拉取，开始安装依赖')
         return insDepend(dirname);
       })
       .then(cp => {
